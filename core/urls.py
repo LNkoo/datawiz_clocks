@@ -1,7 +1,7 @@
 from django.urls import path
-from core.views import index_core
+from core import views
 
 
 urlpatterns = [
-    path('', index_core),
+    path('departments/', views.DepartmentView.as_view(), name='departments'),
 ]

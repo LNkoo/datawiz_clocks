@@ -1,6 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.views.generic import TemplateView
 
 
-def index_core(request):
-    return HttpResponse('<h1>Hello world</h1>')
+class DepartmentView(TemplateView):
+    template_name = 'core/department.html'
