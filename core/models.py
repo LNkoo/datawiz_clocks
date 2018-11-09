@@ -35,6 +35,7 @@ class Product(models.Model):
 class Department(models.Model):
     name = models.CharField(verbose_name='Назва', max_length=255)
     group_of_products = models.ManyToManyField(to="GroupOfProducts", verbose_name='Підкатегорія', blank=True)
+    picture = models.ImageField(verbose_name='Логотип відділу', name='department_images', null=True, blank=True)
 
     def __str__(self):
         return '{0}'.format(self.name)
