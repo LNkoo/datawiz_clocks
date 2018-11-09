@@ -7,6 +7,7 @@ class Characteristic(models.Model):
     brand = models.CharField(verbose_name='Бренд', max_length=255)
     country = models.CharField(verbose_name='Країна', max_length=255)
     weight = models.FloatField(verbose_name='Вага', max_length=255)
+    text = models.TextField(verbose_name='Опис', blank=True, null=True)
 
     class Meta:
         verbose_name = "характеристика"
@@ -16,11 +17,15 @@ class Characteristic(models.Model):
 class Product(models.Model):
     name = models.CharField(verbose_name='Назва товару', max_length=255)
     price = models.FloatField(verbose_name='Вартість')
-    picture = models.ImageField(verbose_name='Фото товару')
+    picture = models.ImageField(verbose_name='Фото товару', default='default.jpg', blank=True)
     bar_code = models.IntegerField(verbose_name='Штрих код')
     accessibility = models.BooleanField(verbose_name='Доступність', default=False)
-    characteristic = models.ManyToManyField(to=Characteristic, verbose_name='Характеристика')
+    characteristic = models.OneToOneField(to=Characteristic, verbose_name='Характеристика', null=True,
+                                          blank=True, on_delete=models.SET_NULL)
     group_of_products = models.ForeignKey(to="GroupOfProducts", verbose_name='Група товару', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{0}'.format(self.name)
 
     class Meta:
         verbose_name = "товар"
@@ -29,7 +34,10 @@ class Product(models.Model):
 
 class Department(models.Model):
     name = models.CharField(verbose_name='Назва', max_length=255)
-    group_of_products = models.ManyToManyField(to="GroupOfProducts", verbose_name='Підкатегорія')
+    group_of_products = models.ManyToManyField(to="GroupOfProducts", verbose_name='Підкатегорія', blank=True)
+
+    def __str__(self):
+        return '{0}'.format(self.name)
 
     class Meta:
         verbose_name = "відділ"
@@ -38,6 +46,9 @@ class Department(models.Model):
 
 class GroupOfProducts(models.Model):
     name = models.CharField(verbose_name='Назва групи', max_length=255)
+
+    def __str__(self):
+        return '{0}'.format(self.name)
 
     class Meta:
         verbose_name = "група товару"
@@ -71,6 +82,13 @@ class Worker(AbstractBaseUser):
     surname = models.CharField(verbose_name='Прізвище', max_length=255)
     name = models.CharField(verbose_name="Ім'я", max_length=255)
 
+    def __str__(self):
+        return '{0}'.format(self.name)
+
+    class Meta:
+        verbose_name = 'робітник'
+        verbose_name_plural = 'Робітники'
+
 
 class Courier(AbstractBaseUser):
     USERNAME_FIELD = 'login'
@@ -78,6 +96,13 @@ class Courier(AbstractBaseUser):
     surname = models.CharField(verbose_name='Прізвище', max_length=255)
     name = models.CharField(verbose_name="Ім'я", max_length=255)
     phone = models.CharField(verbose_name='Номер телефону', max_length=15)
+
+    def __str__(self):
+        return '{0}'.format(self.name)
+
+    class Meta:
+        verbose_name = 'кур’єр'
+        verbose_name_plural = 'Кур’єри'
 
 
 class Order(models.Model):
