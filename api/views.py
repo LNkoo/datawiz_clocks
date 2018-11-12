@@ -1,7 +1,8 @@
 from rest_framework.generics import ListAPIView
 
-from api.serializers import DepartmentSerializer, ProductsSerializer, CourierSerializer, WorkerSerializer
-from core.models import Department, Product, Courier, Worker
+from api.serializers import DepartmentSerializer, ProductsSerializer, CourierSerializer, WorkerSerializer, \
+    GroupOfProductsSerializer, CharacteristicSerializer
+from core.models import Department, Product, Courier, Worker, Characteristic
 
 
 class DepartmensListView(ListAPIView):
@@ -38,4 +39,18 @@ class WorkerListView(ListAPIView):
 
     def get_queryset(self):
         return Worker.objects.all()
+
+
+class DepartmentListOfGroup(ListAPIView):
+    serializer_class = GroupOfProductsSerializer
+
+    def get_queryset(self):
+        return Department.objects.get(pk=self.kwargs.get('pk')).group_of_products.all()
+
+
+class CharacteristicListView(ListAPIView):
+    serializer_class = CharacteristicSerializer
+
+    def get_queryset(self):
+        return Characteristic.objects.all()
 

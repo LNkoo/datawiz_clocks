@@ -1,7 +1,7 @@
 from django.urls import reverse
 from rest_framework import serializers
 
-from core.models import Department, GroupOfProducts, Product, Courier, Worker
+from core.models import Department, GroupOfProducts, Product, Courier, Worker, Characteristic
 
 
 class GroupOfProductsSerializer(serializers.ModelSerializer):
@@ -37,8 +37,15 @@ class CourierSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class WorkerSerializer (serializers.ModelSerializer):
+class WorkerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Worker
+        fields = '__all__'
+
+
+class CharacteristicSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Characteristic
         fields = '__all__'

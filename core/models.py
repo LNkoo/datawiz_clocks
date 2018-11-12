@@ -9,16 +9,20 @@ class Characteristic(models.Model):
     weight = models.FloatField(verbose_name='Вага', max_length=255)
     text = models.TextField(verbose_name='Опис', blank=True, null=True)
 
+    def __str__(self):
+        return '{0}'.format(self.brand, self.country, self.weight)
+
     class Meta:
         verbose_name = "характеристика"
         verbose_name_plural = "Характеристики"
+
 
 
 class Product(models.Model):
     name = models.CharField(verbose_name='Назва товару', max_length=255)
     price = models.FloatField(verbose_name='Вартість')
     picture = models.ImageField(verbose_name='Фото товару', default='default.jpg', blank=True)
-    bar_code = models.IntegerField(verbose_name='Штрих код')
+    bar_code = models.IntegerField(verbose_name='Штрих код', max_length=10)
     accessibility = models.BooleanField(verbose_name='Доступність', default=False)
     characteristic = models.OneToOneField(to=Characteristic, verbose_name='Характеристика', null=True,
                                           blank=True, on_delete=models.SET_NULL)
