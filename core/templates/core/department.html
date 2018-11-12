@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+{% block title %}Відділи{% endblock %}
+{% block js %}
+    {% load staticfiles %}
+<script type="text/javascript" src="{% static 'core/js/departments.js' %}"></script>
+{% endblock %}
+{% block content %}
+    <div class="departments">
+    <div data-bind="foreach: departments">
+        <img data-bind="attr:{src:department_images}" width="400" >
+        <p data-bind="text:name"></p>
+    </div>
+    </div>
+{% endblock %}
