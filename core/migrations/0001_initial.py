@@ -137,7 +137,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='response',
             name='client',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.UserClient', verbose_name='Клієнт'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Consumer', verbose_name='Клієнт'),
         ),
         migrations.AddField(
             model_name='response',
@@ -152,7 +152,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='order',
             name='client',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.UserClient', verbose_name='Клієнт'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Consumer', verbose_name='Клієнт'),
         ),
         migrations.AddField(
             model_name='order',
@@ -167,7 +167,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='basket',
             name='client',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.UserClient', verbose_name='Клієнт'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Consumer', verbose_name='Клієнт'),
         ),
         migrations.AddField(
             model_name='basket',
