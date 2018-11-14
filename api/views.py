@@ -82,21 +82,3 @@ class ProductListWithFilterView(APIView):
             ]
         }
         return Response(response)
-
-
-class ConsumerRegistrationView(TemplateView):
-    template_name = 'core/registration.html'
-
-    def get_context_data(self, **kwargs):
-        return {'form': ConsumerRegistrationForm()}
-
-    def post(self, request):
-        form = ConsumerRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-        else:
-            return render(
-                request, self.template_name,
-                {'errors': form.errors, 'form': form}
-            )
-

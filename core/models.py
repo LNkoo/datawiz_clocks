@@ -24,7 +24,7 @@ class Product(models.Model):
         verbose_name='Фото товару', default='default.jpg', blank=True
     )
     bar_code = models.IntegerField(
-        verbose_name='Штрих код', max_length=10
+        verbose_name='Штрих код'
     )
     accessibility = models.BooleanField(
         verbose_name='Доступність', default=False
@@ -98,7 +98,7 @@ class Consumer(models.Model):
     phone = models.CharField(verbose_name='Номер телефону',
                              max_length=15)
     account = models.OneToOneField(verbose_name="Акаунт", to=User,
-                                   related_name='consumer')
+                                   related_name='consumer', on_delete=models.PROTECT)
 
     def __str__(self):
         return '{0}'.format(self.name)
@@ -141,7 +141,7 @@ class Courier(AbstractBaseUser):
 class Order(models.Model):
     position_in_the_basket = models.ManyToManyField(
         to=PositionInTheBasket, verbose_name='Позиція в корзині')
-    client = models.ForeignKey(to="core.models.Consumer",
+    client = models.ForeignKey(to=Consumer,
                                verbose_name='Клієнт',
                                on_delete=models.CASCADE)
 

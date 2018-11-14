@@ -1,14 +1,31 @@
 {% extends 'core/base.html' %}
+{% load staticfiles %}
 {% block title %}Відділи{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'core/css/departments.css' %}">
+{% endblock %}
 {% block js %}
-    {% load staticfiles %}
-<script type="text/javascript" src="{% static 'core/js/departments.js' %}"></script>
+    <script type="text/javascript" src="{% static 'core/js/departments.js' %}"></script>
+    <script src="{% static 'core/js/registration.js' %}"></script>
 {% endblock %}
 {% block content %}
+    <div>{{ user }}</div>
+
+
     <div class="departments">
-    <div data-bind="foreach: departments">
-        <img data-bind="attr:{src:department_images}" width="400" >
-        <p data-bind="text:name"></p>
+        <div class="row" data-bind="foreach: departments">
+            <div class="column">
+                <div class="container">
+                    <div class="img-wrap">
+                        <img data-bind="attr:{src:department_images}">
+                    </div>
+                    <div class="text-block">
+                        <p data-bind="text:name"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
+
 {% endblock %}
