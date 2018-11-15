@@ -52,7 +52,7 @@ class Department(models.Model):
         to="GroupOfProducts", verbose_name='Підкатегорія', blank=True
     )
     picture = models.ImageField(
-        verbose_name='Логотип відділу', name='department_images',
+        verbose_name='Логотип відділу',
         null=True, blank=True
     )
 
@@ -66,6 +66,11 @@ class Department(models.Model):
 
 class GroupOfProducts(models.Model):
     name = models.CharField(verbose_name='Назва групи', max_length=255)
+    picture = models.ImageField(
+        upload_to='groups_photo',
+        verbose_name='Логотип групи',
+        null=True, blank=True
+    )
 
     def __str__(self):
         return '{0}'.format(self.name)
@@ -98,7 +103,8 @@ class Consumer(models.Model):
     phone = models.CharField(verbose_name='Номер телефону',
                              max_length=15)
     account = models.OneToOneField(verbose_name="Акаунт", to=User,
-                                   related_name='consumer', on_delete=models.PROTECT)
+                                   related_name='consumer',
+                                   on_delete=models.PROTECT)
 
     def __str__(self):
         return '{0}'.format(self.name)

@@ -10,6 +10,7 @@ from core.models import Consumer
 class DepartmentView(TemplateView):
     template_name = 'core/department.html'
 
+
 class ConsumerRegistrationView(TemplateView):
     template_name = 'core/registration.html'
 
@@ -31,9 +32,11 @@ class ConsumerRegistrationView(TemplateView):
             )
         return redirect('departments')
 
-class ConsumerAutorizationView(TemplateView):
+
+class ConsumerAuthorizationView(TemplateView):
     template_name = 'core/authorization.html'
-    def post(self,request):
+
+    def post(self, request):
         consumer = get_object_or_404(
             Consumer,
             account__username = request.POST.get('username'),
