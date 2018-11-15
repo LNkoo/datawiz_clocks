@@ -1,6 +1,6 @@
-<form action="{% url 'auth' %}" method="post">
+<form action="{% url 'consumer-authorization' %}" method="post">
     {% csrf_token %}
-    <input type="email" name="email" placeholder="email">
+    <input type="text" name="username" placeholder="username">
     <input type="password" name="password" placeholder="password">
     <input type="submit" value="Увійти">
 </form>
