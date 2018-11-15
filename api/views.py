@@ -1,19 +1,22 @@
 from django.db.models import Q, Min, Max
-from django.shortcuts import render
-from django.views.generic import TemplateView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.serializers import DepartmentSerializer, ProductsSerializer, CourierSerializer, WorkerSerializer, \
-    GroupOfProductsSerializer, CharacteristicSerializer
-from core.forms import ConsumerRegistrationForm
+from .pagination import (
+    PostLimitOffsetPagination,
+    PostPageNumberPagination,
+)
+
+from api.serializers import (
+    DepartmentSerializer, ProductsSerializer, CourierSerializer,
+    WorkerSerializer, GroupOfProductsSerializer, CharacteristicSerializer
+)
 from core.models import Department, Product, Courier, Worker, Characteristic
 
 
 class DepartmensListView(ListAPIView):
     serializer_class = DepartmentSerializer
-    paginate_by = 2
 
     def get_queryset(self):
         return Department.objects.all()
@@ -21,6 +24,7 @@ class DepartmensListView(ListAPIView):
 
 class ProductListView(ListAPIView):
     serializer_class = ProductsSerializer
+    pagination_class = PostPageNumberPagination
 
     def get_queryset(self):
         return Product.objects.all()
@@ -28,9 +32,12 @@ class ProductListView(ListAPIView):
 
 class ProductsFromGroupOfProducts(ListAPIView):
     serializer_class = ProductsSerializer
+    pagination_class = PostLimitOffsetPagination
 
     def get_queryset(self):
-        return Product.objects.filter(group_of_products__id=self.kwargs.get('pk'))
+        return Product.objects.filter(
+            group_of_products__id=self.kwargs.get('pk')
+        )
 
 
 class CourierListView(ListAPIView):
@@ -47,11 +54,12 @@ class WorkerListView(ListAPIView):
         return Worker.objects.all()
 
 
-class DepartmentListOfGroup(ListAPIView):
+class ListOfGroupForDepartment(ListAPIView):
     serializer_class = GroupOfProductsSerializer
 
     def get_queryset(self):
-        return Department.objects.get(pk=self.kwargs.get('pk')).group_of_products.all()
+        return Department.objects.get(
+            pk=self.kwargs.get('pk')).group_of_products.all()
 
 
 class CharacteristicListView(ListAPIView):
