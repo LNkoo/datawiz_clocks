@@ -1,5 +1,19 @@
-<form id="registration-form" action="{% url 'consumer-registration' %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Зареєструватися">
-</form>
+{% load staticfiles %}
+{% block css %}
+    <link rel="stylesheet"
+          href="{% static 'core/css/registration.css' %}">
+{% endblock %}
+<div class="container">
+
+    <form id="registration-form"
+          action="{% url 'consumer-registration' %}" method="post">
+        {% csrf_token %}
+        <div class="row">
+
+            {{ form.as_p }}
+        </div>
+        <input type="submit" value="Зареєструватися">
+
+    </form>
+
+</div>
