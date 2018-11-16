@@ -8,7 +8,6 @@
 {% block js %}
     <script type="text/javascript"
             src="{% static 'core/js/departments.js' %}"></script>
-    <script src="{% static 'core/js/registration.js' %}"></script>
 {% endblock %}
 {% block content %}
     <div>{{ user }}</div>
@@ -29,10 +28,44 @@
         </ul>
     </div>
 
-    <div class="departments">
-        <div class="row" data-bind="foreach: departments">
+    <div class="store">
+    <button data-bind="click:undo, visible: !showDepartments()" >undo</button>
+    <button data-bind="click:redo, visible: (showDepartments() && groupOfProducts().length>0) || (showGroupOfProducts() && products().length>0)" >redo</button>
+        <div class="row"
+             data-bind="foreach: departments, visible:showDepartments">
             <div class="column">
-                <div class="container">
+                <div class="container"
+                     data-bind="click: $parent.uploadItems">
+                    <div class="img-wrap">
+                        <img data-bind="attr:{src:picture}">
+                    </div>
+                    <div class="text-block">
+                        <p data-bind="text:name"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row"
+             data-bind="foreach: groupOfProducts, visible:showGroupOfProducts">
+            <div class="column">
+                <div class="container"
+                     data-bind="click: $parent.uploadItems">
+                    <div class="img-wrap">
+                        <img data-bind="attr:{src:picture}">
+                    </div>
+                    <div class="text-block">
+                        <p data-bind="text:name"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row"
+             data-bind="foreach: products, visible:showProducts">
+            <div class="column">
+                <div class="container"
+                     data-bind="click: $parent.uploadItems">
                     <div class="img-wrap">
                         <img data-bind="attr:{src:picture}">
                     </div>
