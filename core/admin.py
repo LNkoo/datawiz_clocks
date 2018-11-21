@@ -1,10 +1,9 @@
 from django.contrib import admin
 
-from core.models import Department, GroupOfProducts, Product, Courier, Worker, Characteristic
+from core import models
 
-admin.site.register(Department)
-admin.site.register(GroupOfProducts)
-admin.site.register(Product)
-admin.site.register(Worker)
-admin.site.register(Courier)
-admin.site.register(Characteristic)
+admin.site.register((
+    models.Department, models.GroupOfProducts, models.Product,
+    models.Worker, models.Courier, models.Characteristic, models.Consumer,
+    models.Basket,
+))

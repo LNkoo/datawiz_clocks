@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from core.models import Consumer
+from core.models import Consumer, Basket
 
 
 class ConsumerRegistrationForm(forms.ModelForm):
@@ -23,6 +23,7 @@ class ConsumerRegistrationForm(forms.ModelForm):
                 email=self.cleaned_data.get('email'),
                 password=self.cleaned_data.get("password")
             )
+            Basket.objects.create(consumer=consumer)
             consumer.account = account
             consumer.save()
         return consumer

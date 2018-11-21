@@ -1,21 +1,27 @@
-from django.db.models import Q, Min, Max
+from django.db.models import Q
+
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core.models import (
+    Department, Product, Courier, Worker, Characteristic,
+)
+
+from .utils import (
+    get_available_filters, filter_by_price, filter_by_brand,
+    filter_by_country,
+)
 from .pagination import (
-    PostLimitOffsetPagination,
-    PostPageNumberPagination,
+    PostLimitOffsetPagination, PostPageNumberPagination,
 )
-
-from api.serializers import (
+from .serializers import (
     DepartmentSerializer, ProductsSerializer, CourierSerializer,
-    WorkerSerializer, GroupOfProductsSerializer, CharacteristicSerializer
+    WorkerSerializer, GroupOfProductsSerializer, CharacteristicSerializer,
 )
-from core.models import Department, Product, Courier, Worker, Characteristic
 
 
-class DepartmensListView(ListAPIView):
+class DepartmentsListView(ListAPIView):
     serializer_class = DepartmentSerializer
 
     def get_queryset(self):
@@ -71,7 +77,7 @@ class CharacteristicListView(ListAPIView):
 
 class ProductListWithFilterView(APIView):
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         qs = Product.objects.filter(
             Q(group_of_products__pk=request.data.get('group_id')) |
             Q(group_of_products__department__pk=request.data.get(
@@ -79,14 +85,21 @@ class ProductListWithFilterView(APIView):
             ))
         )
         response = {
-            "products": ProductsSerializer(qs, many=True).data,
-            "available_filters": [
-                {
-                    "name": "price",
-                    "type": "diapason",
-                    "values": [qs.aggregate(Min("price"))['price__min'],
-                               qs.aggregate(Max("price"))['price__max']]
-                }
-            ]
+            "available_filters": get_available_filters(qs)
         }
+        filters = request.data.get('filters', [])
+        for f in filters:
+            if f['name'] == "price":
+                print(f['values'])
+                qs = filter_by_price(qs, f['values'])
+            if f['name'] == 'brand':
+                qs = filter_by_brand(qs, f['values'])
+            if f['name'] == "country":
+                qs = filter_by_country(qs, f['values'])
+        response["products"] = ProductsSerializer(qs, many=True).data
         return Response(response)
+
+
+class AddProductFromBasket(ListAPIView):
+    def post(self, request):
+        pass
