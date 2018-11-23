@@ -30,4 +30,8 @@ urlpatterns = [
     path('characteristic',
          views.CharacteristicListView.as_view(),
          name='characteristic-list'),
+
+    path('consumers/<int:pk>/basket/',
+         views.AddProductInBasketListView.as_view(),
+         name='consumer-basket'),
 ]

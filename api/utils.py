@@ -45,3 +45,7 @@ def filter_by_brand(qs, brand_names):
 
 def filter_by_country(qs, country_names):
     return qs.filter(characteristic__country__in=country_names)
+
+
+def filter_by_name_of_product(qs, product_name):
+    return qs.filter(name__icontains=product_name)
