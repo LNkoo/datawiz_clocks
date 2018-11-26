@@ -92,9 +92,18 @@ class PositionInTheBasket(models.Model):
 
 class Basket(models.Model):
     position_in_the_basket = models.ManyToManyField(
-        to=PositionInTheBasket, verbose_name='Позиція в корзині')
-    client = models.ForeignKey(to="Consumer", verbose_name='Клієнт',
-                               on_delete=models.CASCADE)
+        to=PositionInTheBasket, verbose_name='Позиція в корзині',
+        blank=True
+    )
+    consumer = models.OneToOneField(
+        to="Consumer", on_delete=models.CASCADE,
+        verbose_name="Клієнт", related_name="basket"
+    )
+
+    def __str__(self):
+        return "Корзина для {consumer_name}".format(
+            consumer_name=self.consumer
+        )
 
 
 class Consumer(models.Model):

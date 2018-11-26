@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from core.models import (
     Department, GroupOfProducts, Product, Courier, Worker,
-    Characteristic,
+    Characteristic, PositionInTheBasket,
 )
 
 
@@ -55,4 +55,12 @@ class CourierSerializer(serializers.ModelSerializer):
 class WorkerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Worker
+        fields = '__all__'
+
+
+class PositionInTheBasketSerializer(serializers.ModelSerializer):
+    product = ProductsSerializer(read_only=True)
+
+    class Meta:
+        model = PositionInTheBasket
         fields = '__all__'
