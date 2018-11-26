@@ -10,27 +10,48 @@
             src="{% static 'core/js/departments.js' %}"></script>
 {% endblock %}
 {% block content %}
-    <div>{{ user }}</div>
+    <div id="header">
+        <div id="logo">
+            <img src="/media/granny.png" style="width: 350px">
+        </div>
+
+    </div>
+
 
     <div id="menu">
         <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#news">News</a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0)"
-                   class="dropbtn">Dropdown</a>
-                <div class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                </div>
+            <li>
+                <form id="search" action="#">
+                    {% csrf_token %}
+                    <input type="text" placeholder="Знайти товар">
+                    <input type="submit" value="Шукати">
+                </form>
+            </li>
+            <li>
+                <a href="#bakery">Корзина</a>
+            </li>
+            <li>
+                <a href="#order">Замовлення</a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/consumer/registration/">Реєстрація</a>
+            </li>
+            <li>
+                <a href="http://127.0.0.1:8000/consumer/authorization/">Вхід</a>
+            </li>
+            <li>
+                <a href="#user">{{ user }}</a>
             </li>
         </ul>
     </div>
 
     <div class="store">
-    <button data-bind="click:undo, visible: !showDepartments()" >undo</button>
-    <button data-bind="click:redo, visible: (showDepartments() && groupOfProducts().length>0) || (showGroupOfProducts() && products().length>0)" >redo</button>
+        <button data-bind="click:undo, visible: !showDepartments()">
+            undo
+        </button>
+        <button data-bind="click:redo, visible: (showDepartments() && groupOfProducts().length>0) || (showGroupOfProducts() && products().length>0)">
+            redo
+        </button>
         <div class="row"
              data-bind="foreach: departments, visible:showDepartments">
             <div class="column">
@@ -78,4 +99,32 @@
         </div>
     </div>
 
+
+    <div id="contacts">
+    <div id="row">
+        <div class="column">
+            <div id="info">
+                <h3>Контактна інформація</h3>
+                <h4>+380 674-802-678</h4>
+                <h4>+380 382-707-567</h4>
+                <h4>+380 673-801-622</h4>
+            </div>
+        </div>
+        <div class="column">
+            <div id="work">
+            <h3>Графік роботи:</h3>
+            <p>з Пн - Пт </br> з 9:00 до 18:00</p>
+            <p> Сб - Нд Вихідні</p>
+        </div>
+        </div>
+        <div class="column">
+            <div id="subscribe">
+            <h3>Приєднатися до нас:</h3>
+                <p>Instagram</p>
+                <p>Facebook</p>
+                <p>Telegram</p>
+        </div>
+        </div>
+    </div>
+    </div>
 {% endblock %}

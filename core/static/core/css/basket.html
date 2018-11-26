@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    #basket-info {
+       padding: 0 8%;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .info {
+
+    }
+
+    .row {
+        border-bottom-color: #4caf50;
+        border-bottom-style: groove;
+        border-bottom-width: thin;
+
+    }
+
+    .column:first-child {
+        width: 50%;
+    }
+
+    .column:last-child {
+        width: 10%;
+    }
+
+    .column {
+        float: left;
+        width: 20%;
+        padding: 10px;
+
+    }
+
+    .row1 {
+        margin-top: 5px;
+    }
+
+    .row:after, .row1:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .edit:first-child {
+        margin-left: 2%;
+        width: 8%;
+    }
+
+    .edit {
+        float: left;
+        width: 30%;
+    }
+
+    button {
+        background-color: #4caf50;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+    }
+
+    button:hover {
+        background-color: white;
+        color: #4caf50;
+        border: thin;
+        border-style: solid;
+        border-color: #4caf50;
+    }
+</style>
+<body>
+<div id="basket-info">
+    <div class="info">
+        <div class="row">
+            <div class="column">
+                <h3>Товар</h3>
+            </div>
+            <div class="column">
+                <h3>Кількість</h3>
+            </div>
+            <div class="column">
+                <h3>Ціна за од</h3>
+            </div>
+            <div class="column">
+                <h3></h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column">
+                <p>*******</p>
+            </div>
+            <div class="column">
+                <p>5</p>
+            </div>
+            <div class="column">
+                <p>15</p>
+            </div>
+            <div class="column">
+                <p>dblfk</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <p>*******</p>
+            </div>
+            <div class="column">
+                <p>5</p>
+            </div>
+            <div class="column">
+                <p>15</p>
+            </div>
+            <div class="column">
+                <p>dblfk</p>
+            </div>
+        </div>
+    </div>
+    <div class="row1">
+        <div class="edit"><h3>Разом: </h3></div>
+        <div class="edit"><h3> ****</h3></div>
+        <div class="edit"><a href="#dlete">
+            <button><h3>Видалити все з кошика</h3></button>
+        </a></div>
+        <div class="edit"><a href="#order">
+            <button><h3>Оформити замовлення</h3></button>
+        </a></div>
+    </div>
+</div>
+</body>
+</html>
