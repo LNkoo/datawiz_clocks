@@ -89,6 +89,9 @@ class PositionInTheBasket(models.Model):
     quantity_of_product = models.FloatField(
         verbose_name='Кількість товару')
 
+    def __str__(self):
+        return '{0}'.format(self.product)
+
 
 class Basket(models.Model):
     position_in_the_basket = models.ManyToManyField(
@@ -100,10 +103,21 @@ class Basket(models.Model):
         verbose_name="Клієнт", related_name="basket"
     )
 
+    @property
+    def total_sum(self):
+        total_price = 0
+        for item in self.position_in_the_basket.all():
+            total_price = total_price + (item.product.price * item.quantity_of_product)
+        return total_price
+
     def __str__(self):
         return "Корзина для {consumer_name}".format(
             consumer_name=self.consumer
         )
+
+    class Meta:
+        verbose_name = "корзина"
+        verbose_name_plural = "Корзини"
 
 
 class Consumer(models.Model):

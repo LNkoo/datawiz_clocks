@@ -4,7 +4,7 @@ from rest_framework import serializers
 from core.models import (
     Department, GroupOfProducts, Product, Courier, Worker,
     Characteristic, PositionInTheBasket,
-)
+    Basket)
 
 
 class GroupOfProductsSerializer(serializers.ModelSerializer):
@@ -55,6 +55,12 @@ class CourierSerializer(serializers.ModelSerializer):
 class WorkerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Worker
+        fields = '__all__'
+
+
+class BasketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Basket
         fields = '__all__'
 
 

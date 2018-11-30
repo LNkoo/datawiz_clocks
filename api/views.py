@@ -19,7 +19,7 @@ from .serializers import (
     DepartmentSerializer, ProductsSerializer, CourierSerializer,
     WorkerSerializer, GroupOfProductsSerializer,
     CharacteristicSerializer, PositionInTheBasketSerializer,
-)
+    BasketSerializer)
 
 
 class DepartmentsListView(ListAPIView):
@@ -79,12 +79,15 @@ class CharacteristicListView(ListAPIView):
 class ProductListWithFilterView(APIView):
 
     def post(self, request):
-        qs = Product.objects.filter(
-            Q(group_of_products__pk=request.data.get('group_id')) |
-            Q(group_of_products__department__pk=request.data.get(
-                'department_id'
-            ))
-        )
+        if (request.data.get('group_id')
+                or request.data.get('department_id')):
+            qs = Product.objects.filter(
+                Q(group_of_products__pk=request.data.get('group_id')) |
+                Q(group_of_products__department__pk=request.data.get(
+                    'department_id'
+                ))
+            )
+        else: qs = Product.objects.all()
         response = {
             "available_filters": get_available_filters(qs)
         }
@@ -108,10 +111,11 @@ class AddProductInBasketListView(APIView):
         self.basket = get_object_or_404(
             Basket, consumer__pk=kwargs.get('pk')
         )
-        return super(
-            AddProductInBasketListView,
-            self).dispatch(request, *args, **kwargs
-                           )
+        return (
+            super(AddProductInBasketListView, self).dispatch(
+                request, *args, **kwargs
+            )
+        )
 
     def get(self, request, *args, **kwargs):
         total_price = 0
@@ -132,12 +136,48 @@ class AddProductInBasketListView(APIView):
             )
         )
         self.basket.save()
-        total_price = 0
-        for item in self.basket.position_in_the_basket.all():
-            total_price += item.product.price * item.quantity_of_product
+
         return Response({
             'products': PositionInTheBasketSerializer(
                 self.basket.position_in_the_basket.all(), many=True
             ).data,
-            'total_cost': total_price
+            'total_cost': self.basket.total_sum
+        })
+
+
+class UpdateBasketListView(APIView):
+
+    def dispatch(self, request, *args, **kwargs):
+        self.basket = get_object_or_404(
+            Basket, consumer__pk=kwargs.get('pk')
+        )
+        return (
+            super(UpdateBasketListView, self).dispatch(
+                request, *args, **kwargs
+            )
+        )
+
+    def post(self, request, *args, **kwargs):
+        changes = request.data.get("changes", [])  # зміни, що ми отримали із запиту, що прийшли від клієнта
+        deletes = request.data.get("deletes", [])
+        for change in changes:
+            position = self.basket.position_in_the_basket.get(pk=change.get("position_id"))
+            position.quantity_of_product = change.get("quantity_of_product")
+            position.save()
+        for delete_id in deletes:
+            position = self.basket.position_in_the_basket.get(pk=delete_id)
+            position.delete()
+        return Response({
+            'products': PositionInTheBasketSerializer(
+                self.basket.position_in_the_basket.all(), many=True
+            ).data,
+            'total_cost': self.basket.total_sum
+        })
+
+    def get(self, request, *args, **kwargs):
+        return Response({
+            'products': PositionInTheBasketSerializer(
+                self.basket.position_in_the_basket.all(), many=True
+            ).data,
+            'total_cost': self.basket.total_sum
         })

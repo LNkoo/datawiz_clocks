@@ -34,4 +34,8 @@ urlpatterns = [
     path('consumers/<int:pk>/basket/',
          views.AddProductInBasketListView.as_view(),
          name='consumer-basket'),
+
+    path('consumers/<int:pk>/basket_update/',
+         views.UpdateBasketListView.as_view(),
+         name='consumer-baskets'),
 ]
